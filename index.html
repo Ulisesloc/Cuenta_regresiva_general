@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta Regresiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1c1c1c;
+      color: #f0f0f0;
+      text-align: center;
+      padding-top: 100px;
+    }
+    h1 {
+      font-size: 4.5rem;
+      margin-bottom: 30px;
+    }
+    #countdown {
+      font-size: 4rem;
+      margin-top: 20px;
+      border: 3px solid #00ff88;
+      display: inline-block;
+      padding: 20px 40px;
+      border-radius: 15px;
+    }
+    #after-message {
+      display: none;
+      margin-top: 40px;
+    }
+    #after-message p {
+      font-size: 1.5rem;
+    }
+    #after-message a {
+      color: #00ffff;
+      font-size: 1rem;
+      display: block;
+      margin-top: 10px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #alt-page {
+      display: none;
+      font-size: 2rem;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="title"></h1>
+  <div id="countdown"></div>
+
+  <div id="after-message">
+    <p>¡Vamonos ahora si!</p>
+    <a onclick="showAltPage()">* Si aun no lo dejan ir haga click aquí</a>
+  </div>
+
+  <div id="alt-page">
+    <p>Vuelva a preguntar en 5 min...</p>
+  </div>
+
+  <script>
+    // === CONFIGURA AQUÍ ===
+    const countdownTitle = "Let's go to SMTA...!!";
+    const targetDate = new Date("2025-09-17T15:00:00"); // YYYY-MM-DDTHH:MM:SS
+    // =======================
+
+    document.getElementById("title").innerText = countdownTitle;
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("after-message").style.display = "block";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").innerText =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function showAltPage() {
+      document.getElementById("after-message").style.display = "none";
+      document.getElementById("alt-page").style.display = "block";
+
+      // Después de 5 segundos, regresar al mensaje anterior
+      setTimeout(() => {
+        document.getElementById("alt-page").style.display = "none";
+        document.getElementById("after-message").style.display = "block";
+      }, 5000); // 5000 ms = 5 segundos
+    }
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
